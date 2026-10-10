@@ -96,26 +96,26 @@ class DeepSeekAccountManager(context: Context) {
         if (!response.isSuccessful) {
             val bodyStr = response.body?.string() ?: ""
             throw when (response.code) {
-                429 -> Exception("登录请求过于频繁，请稍后再试")
-                else -> Exception("登录失败 (${response.code}): $bodyStr")
+                429 -> Exception("Too many sign-in attempts — try again shortly")
+                else -> Exception("Sign-in failed (${response.code}): $bodyStr")
             }
         }
 
-        val body = response.body?.string() ?: throw Exception("登录响应为空")
+        val body = response.body?.string() ?: throw Exception("Empty sign-in response")
         Log.d("DS_LOGIN_RESP", body)
 
         val loginResp = gson.fromJson(body, LoginResponse::class.java)
         val data = loginResp.data
-            ?: throw Exception("登录响应格式异常: $body")
+            ?: throw Exception("Unexpected sign-in response: $body")
 
         // Check biz_code: 0=success, other values indicate login failure
         if (data.bizCode != 0) {
             // Log full response body so we can see the real biz_msg
-            throw Exception("登录失败 (biz_code=${data.bizCode}, biz_msg=${data.bizMsg}): $body")
+            throw Exception("Sign-in failed (biz_code=${data.bizCode}, biz_msg=${data.bizMsg}): $body")
         }
 
         val token = data.bizData?.user?.token
-            ?: throw Exception("登录响应未包含 token")
+            ?: throw Exception("Sign-in response contained no token")
 
         saveCredentials(email, password)
         saveToken(token)

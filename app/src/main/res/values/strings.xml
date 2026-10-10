@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DeepSeek Dashboard</string>
-    <string name="widget_description">显示 DeepSeek API 余额、用量和缓存命中率</string>
-    <string name="config_title">配置 DeepSeek API Key</string>
-    <string name="btn_save">保存</string>
-    <string name="btn_cancel">取消</string>
-    <string name="hint_api_key">输入你的 DeepSeek API Key</string>
+    <string name="widget_description">DeepSeek API balance, usage and cache hit rate</string>
+    <string name="config_title">Set up DeepSeek Dashboard</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="hint_api_key">Enter your DeepSeek API key</string>
     <string-array name="tz_options">
-        <item>跟随设备时区</item>
-        <item>北京时间 (UTC+8)</item>
+        <item>Device timezone</item>
+        <item>Beijing (UTC+8)</item>
         <item>UTC+0</item>
     </string-array>
 </resources>

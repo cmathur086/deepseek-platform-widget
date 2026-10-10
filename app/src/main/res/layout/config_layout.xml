@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="登录 DeepSeek 账号"
+            android:text="Sign in to your DeepSeek account"
             android:textSize="14sp"
             android:textColor="@color/sub_text"
             android:layout_marginTop="8dp" />
@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DeepSeek 邮箱"
+            android:text="DeepSeek email"
             android:textSize="13sp"
             android:textColor="@color/label_text"
             android:layout_marginTop="32dp"
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="密码"
+            android:text="Password"
             android:textSize="13sp"
             android:textColor="@color/label_text"
             android:layout_marginTop="16dp"
@@ -76,7 +76,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="用量统计时区"
+            android:text="Usage timezone"
             android:textSize="13sp"
             android:textColor="@color/label_text"
             android:layout_marginTop="16dp"
@@ -113,7 +113,7 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:text="取消"
+                android:text="Cancel"
                 android:textSize="14sp"
                 android:layout_marginEnd="8dp"
                 style="?android:attr/buttonStyle" />
@@ -123,7 +123,7 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:text="登录并验证"
+                android:text="Sign in"
                 android:textSize="14sp"
                 android:layout_marginStart="8dp"
                 style="?android:attr/buttonStyle" />
@@ -135,7 +135,7 @@
             android:id="@+id/btn_diag"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="获取诊断信息（复制）"
+            android:text="Copy diagnostics"
             android:textSize="12sp"
             android:layout_marginTop="12dp"
             style="?android:attr/buttonStyle" />
@@ -144,7 +144,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="\n💡 说明：\n• 使用 DeepSeek 开放平台账号登录\n• 密码加密存储在手机本地\n• 登录后自动获取访问令牌\n• 令牌过期会自动重新登录\n• 每 30 分钟自动刷新用量数据\n• 时区影响“今日/本月”的统计边界\n• 价格自动跟随官方峰谷定价（高峰/闲时）\n• 点击小组件可手动刷新"
+            android:text="\n💡 Notes:\n• Sign in with your DeepSeek platform account\n• Password is encrypted and stored only on this phone\n• An access token is fetched automatically after sign-in\n• An expired token triggers an automatic re-login\n• Usage data refreshes automatically every 30 minutes\n• Timezone sets the “Today” / “Month” boundaries\n• Tap the widget to refresh on demand"
             android:textSize="12sp"
             android:textColor="@color/sub_text"
             android:layout_marginTop="32dp"

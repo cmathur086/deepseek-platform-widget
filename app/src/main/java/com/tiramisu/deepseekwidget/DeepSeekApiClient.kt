@@ -91,7 +91,7 @@ class DeepSeekApiClient(
             )
         } catch (e: Exception) {
             Log.e("DS_API", "fetchAll failed", e)
-            return WidgetDisplayData(error = e.message ?: "未知错误")
+            return WidgetDisplayData(error = e.message ?: "Unknown error")
         }
     }
 
@@ -105,7 +105,7 @@ class DeepSeekApiClient(
     private fun fetchSummary(): SummaryResult {
         val body = execute(SUMMARY_URL)
         val resp = gson.fromJson(body, SummaryResponse::class.java)
-        val biz = resp.data?.bizData ?: throw Exception("summary 数据为空")
+        val biz = resp.data?.bizData ?: throw Exception("Empty summary data")
 
         val balance = biz.normalWallets?.firstOrNull()?.let {
             "%.2f".format(it.balance?.toDoubleOrNull() ?: 0.0)
@@ -198,9 +198,9 @@ class DeepSeekApiClient(
             Log.d("DS_AMOUNT", body.take(2000))
             val resp = gson.fromJson(body, UsageByKeyAmountResponse::class.java)
             if (resp.code != 0) throw Exception("code=${resp.code} ${resp.msg}")
-            val data = resp.data ?: throw Exception("data 为空: ${body.take(200)}")
+            val data = resp.data ?: throw Exception("Empty data: ${body.take(200)}")
             if (data.bizCode != 0) throw Exception("biz_code=${data.bizCode} ${data.bizMsg}")
-            val biz = data.bizData ?: throw Exception("biz_data 为空: ${body.take(200)}")
+            val biz = data.bizData ?: throw Exception("Empty biz_data: ${body.take(200)}")
             val series = biz.series ?: emptyList()
             amountSeriesCount = series.size
             for (s in series) {
@@ -220,7 +220,7 @@ class DeepSeekApiClient(
             }
         } catch (e: Exception) {
             Log.w("DS_API", "amount failed", e)
-            amountError = e.message ?: "未知错误"
+            amountError = e.message ?: "Unknown error"
         }
 
         // usage/cost: per-model cost amounts in CNY (all API keys summed)
@@ -229,9 +229,9 @@ class DeepSeekApiClient(
             Log.d("DS_COST", body.take(2000))
             val resp = gson.fromJson(body, UsageByKeyCostResponse::class.java)
             if (resp.code != 0) throw Exception("code=${resp.code} ${resp.msg}")
-            val data = resp.data ?: throw Exception("data 为空: ${body.take(200)}")
+            val data = resp.data ?: throw Exception("Empty data: ${body.take(200)}")
             if (data.bizCode != 0) throw Exception("biz_code=${data.bizCode} ${data.bizMsg}")
-            val biz = data.bizData ?: throw Exception("biz_data 为空: ${body.take(200)}")
+            val biz = data.bizData ?: throw Exception("Empty biz_data: ${body.take(200)}")
             // 平台可能返回多个币种分组（CNY/USD）；优先选“有实际花费”的一组，避免取到空组导致费用全 0
             val blocks = biz.data ?: emptyList()
             fun spendOf(blk: UsageCostCurrency): Double = (blk.series ?: emptyList()).sumOf { s ->
@@ -256,15 +256,15 @@ class DeepSeekApiClient(
             }
         } catch (e: Exception) {
             Log.w("DS_API", "cost failed", e)
-            costError = e.message ?: "未知错误"
+            costError = e.message ?: "Unknown error"
         }
 
         // 出错时不再静默归零：把真实原因透传到 widget 上
         if (amountError != null && costError != null) {
-            throw Exception("用量接口失败: amount[$amountError] cost[$costError]")
+            throw Exception("Usage API failed: amount[$amountError] cost[$costError]")
         }
         if (amountError == null && costError == null && amountSeriesCount == 0 && costSeriesCount == 0) {
-            throw Exception("用量接口返回空数据(series 为空)，请反馈")
+            throw Exception("Usage API returned no data (empty series)")
         }
 
         val monthTokensAll = monthTokensByModel.values.sumOf { it.totalTokens }
@@ -395,14 +395,14 @@ class DeepSeekApiClient(
         val body = response.body?.string() ?: ""
         if (!response.isSuccessful) {
             throw when {
-                response.code == 401 -> Exception("登录已过期，请重新登录")
+                response.code == 401 -> Exception("Session expired — sign in again")
                 response.code == 429 || body.trimStart().startsWith("<") ->
-                    Exception("被平台拦截（HTTP ${response.code}），请稍后重试")
+                    Exception("Blocked by platform (HTTP ${response.code}) — try again later")
                 else -> Exception("API ${response.code}: ${body.take(160)}")
             }
         }
         // WAF 拦截页可能以 200 返回 HTML
-        if (body.trimStart().startsWith("<")) throw Exception("被平台拦截（非 JSON 响应），请稍后重试")
+        if (body.trimStart().startsWith("<")) throw Exception("Blocked by platform (non-JSON response) — try again later")
         return body
     }
 }

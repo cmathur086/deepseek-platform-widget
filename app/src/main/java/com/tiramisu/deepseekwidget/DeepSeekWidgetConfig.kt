@@ -68,17 +68,17 @@ class DeepSeekWidgetConfig : Activity() {
             val password = etPassword.text.toString().trim()
 
             if (email.isBlank()) {
-                Toast.makeText(this, "请输入邮箱", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter your email", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (password.isBlank()) {
-                Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter your password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Show loading
-            tvStatus.text = "登录验证中..."
+            tvStatus.text = "Signing in..."
             tvStatus.visibility = View.VISIBLE
             btnLogin.isEnabled = false
 
@@ -115,22 +115,22 @@ class DeepSeekWidgetConfig : Activity() {
         btnDiag.setOnClickListener {
             val token = accountManager.getValidToken()
             if (token.isNullOrBlank()) {
-                Toast.makeText(this, "请先登录成功后再获取诊断", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sign in first to fetch diagnostics", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             tvStatus.visibility = View.VISIBLE
-            tvStatus.text = "正在获取诊断信息..."
+            tvStatus.text = "Fetching diagnostics..."
             btnDiag.isEnabled = false
             Thread {
                 val text = try {
                     DeepSeekApiClient(token, DeepSeekWidget.getUsageTimeZone(this)).fetchDiagnostics()
                 } catch (e: Exception) {
-                    "诊断获取失败: ${e.message}"
+                    "Diagnostics failed: ${e.message}"
                 }
                 runOnUiThread {
                     val cm = getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                     cm.setPrimaryClip(android.content.ClipData.newPlainText("dsdiag", text))
-                    tvStatus.text = "✅ 诊断信息已复制到剪贴板，请发送给开发者"
+                    tvStatus.text = "✅ Diagnostics copied to clipboard"
                     btnDiag.isEnabled = true
                 }
             }.start()
