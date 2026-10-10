@@ -1,8 +1,16 @@
-# DeepSeek Platform Widget 📊
+# DeepSeek Platform Widget 📊 — English fork
 
 [English](#english) | [中文](#中文)
 
 > Real-time DeepSeek API balance, usage, and cache hit rate — on your Android home screen
+
+> **This is a fork.** Upstream (`MCwasd/deepseek-platform-widget`) ships a Chinese-only UI;
+> the strings in this fork are translated to English. The change is **strings only** — both
+> layouts, `strings.xml`, and four Kotlin sources, with no logic or behaviour changes
+> (50 insertions / 50 deletions, commit `c95f9ee`). Everything below describes upstream's app:
+> its design, its API calls and its signing are unchanged. Upstream is MIT — see `LICENSE`.
+
+
 
 <img width="770" alt="screenshot" src="https://github.com/user-attachments/assets/5c60f054-412c-47bd-9581-7750d9c192fa" />
 
